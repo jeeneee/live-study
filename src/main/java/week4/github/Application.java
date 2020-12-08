@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Application {
-    final private String TOKEN = "<YOUR_TOKEN>";
+    final private String TOKEN = "<YOUR TOKEN>";
     final private String ADDRESS = "whiteship/live-study";
     final private float MIN_PERCENTAGE = 80.0f;
     private GitHub github;
@@ -56,6 +56,10 @@ public class Application {
 
     void print(Map<String, List<Integer>> users, int weeks, int latestLockedIssue) {
         StringBuilder str = new StringBuilder();
+        int[] statistics = new int[weeks + 3];   // 통계 저장
+        statistics[0] = users.size();
+
+        // 첫째 줄
         str.append("| 참여자 ");
         for (int i = 1; i <= weeks; i++) {
             str.append("| ").append(i).append("주차 ");
@@ -67,6 +71,7 @@ public class Application {
         }
         str.append("|\n");
 
+        // 1주차 ~ weeks주차 과제 및 참석율
         for (Map.Entry<String, List<Integer>> entry : users.entrySet()) {
             String name = entry.getKey();
             List<Integer> list = entry.getValue();
@@ -75,21 +80,40 @@ public class Application {
                 str.append("|");
                 if (j < list.size() && i == list.get(j)) {
                     str.append("✅");
+                    statistics[i]++;
                     j++;
                 }
             }
             int rest = weeks - Math.max(latestLockedIssue, list.get(list.size() - 1));
             float percentage = (float)list.size() / weeks * 100;
+            statistics[weeks + 1] += percentage * 100;
             str.append(" | ").append(String.format("%.2f", percentage));
             str.append(" | ");
             if ((float)(rest + list.size()) / weeks * 100 < MIN_PERCENTAGE) {
-                str.append("❌ |\n");
+                str.append("❌ |\n");   // 불가
             } else if (percentage >= MIN_PERCENTAGE) {
-                str.append("⭕ |\n");
+                str.append("⭕ |\n");    // 확실
+                statistics[weeks + 2]++;
             } else {
-                str.append("❓ |\n");
+                str.append("❓ |\n");   // 불확실
             }
         }
+
+        // 마지막 줄
+        str.append("| ");
+        for (int i = 0; i < statistics.length; i++) {
+            if (i == 0 || i == statistics.length - 1) {
+                str.append(statistics[i]);
+            } else if (i == statistics.length - 2) {
+                str.append((float)(statistics[i] / statistics[0]) / 100);
+            } else {
+                float percentage = (float)statistics[i] / statistics[0] * 100;
+                str.append(String.format("%.2f", percentage));
+                str.append("(").append(statistics[i]).append(")");
+            }
+            str.append(" | ");
+        }
+
         System.out.println(str);
     }
 }
