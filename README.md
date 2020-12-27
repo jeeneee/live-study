@@ -9,6 +9,8 @@
 |3|[연산자](https://jeeneee.dev/java-live-study/week3-operator/)|
 |4|[제어문](https://jeeneee.dev/java-live-study/week4-control-statement/)
 |5|[클래스](https://jeeneee.dev/java-live-study/week5-class/)
+|6|[상속](https://jeeneee.dev/java-live-study/week6-inheritance/)
+
 
 
 
