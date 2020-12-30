@@ -10,6 +10,7 @@
 |4|[제어문](https://jeeneee.dev/java-live-study/week4-control-statement/)
 |5|[클래스](https://jeeneee.dev/java-live-study/week5-class/)
 |6|[상속](https://jeeneee.dev/java-live-study/week6-inheritance/)
+|7|[패키지](https://jeeneee.dev/java-live-study/week7-package/)
 
 
 
